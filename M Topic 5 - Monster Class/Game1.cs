@@ -9,6 +9,8 @@ namespace M_Topic_5___Monster_Class
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        Player player = new Player(null, new Rectangle(0, 0, 50, 50), new Vector2(0, 0), 0);
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -18,7 +20,7 @@ namespace M_Topic_5___Monster_Class
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            player.Initialize();
 
             base.Initialize();
         }
@@ -27,7 +29,7 @@ namespace M_Topic_5___Monster_Class
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            player.Texture = Content.Load<Texture2D>("pacman-sheet");
         }
 
         protected override void Update(GameTime gameTime)
@@ -35,7 +37,9 @@ namespace M_Topic_5___Monster_Class
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+
+
+            player.FrameAdvance();
 
             base.Update(gameTime);
         }
@@ -44,7 +48,11 @@ namespace M_Topic_5___Monster_Class
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(player.Texture, player.Rectangle, player.Source, Color.White);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using Microsoft.Xna.Framework;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,11 +17,24 @@ namespace M_Topic_5___Monster_Class
         private int frame = 0;
         private List<Rectangle> sourceRects;
 
-        public Player(Texture2D _texture, Rectangle _rectangle, Vector2 _speed) 
+        public Player(Texture2D _texture, Rectangle _rectangle, Vector2 _speed, int _frame) 
         { 
             texture = _texture;
             rectangle = _rectangle;
             speed = _speed;
+            frame = _frame;
+        }
+
+        public int Frame { get { return frame; } }
+
+        public Rectangle Rectangle { get { return rectangle; } }
+
+        public Rectangle Source { get { return sourceRects[frame]; } }
+
+        public Texture2D Texture 
+        { 
+            get { return texture; } 
+            set { texture = value; }
         }
 
         public void Initialize()
@@ -43,11 +55,7 @@ namespace M_Topic_5___Monster_Class
         public void FrameAdvance()
         {
             frame++;
-        }
-
-        public void Draw()
-        {
-            
+            if (frame > 2) { frame = 0; }
         }
     }
 }
