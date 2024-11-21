@@ -27,6 +27,12 @@ namespace M_Topic_5___Monster_Class
 
         public int Frame { get { return frame; } }
 
+        public Vector2 Speed
+        {
+            get { return speed; }
+            set { speed = value; }
+        }
+
         public Rectangle Rectangle { get { return rectangle; } }
 
         public Rectangle Source { get { return sourceRects[frame]; } }
@@ -40,7 +46,7 @@ namespace M_Topic_5___Monster_Class
         public void Initialize()
         {
             sourceRects = new List<Rectangle>();
-            for (int i = 0; i < 3; i++)
+            for (int i = 2; i > -1; i--)
             {
                 sourceRects.Add(new Rectangle((i * 768), 0, 768, 768));
             }
