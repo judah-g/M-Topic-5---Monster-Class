@@ -41,13 +41,20 @@ namespace M_Topic_5___Monster_Class
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            keyboardState = Keyboard.GetState();
+
+
+            if (keyboardState.IsKeyDown(Keys.W) && keyboardState.IsKeyDown(Keys.S))
+                player.Speed = new Vector2(player.Speed.X, 0);
             if (keyboardState.IsKeyDown(Keys.W))
                 player.Speed = new Vector2(player.Speed.X, -2);
             else if (keyboardState.IsKeyDown(Keys.S))
                 player.Speed = new Vector2(player.Speed.X, 2);
             else { player.Speed = new Vector2(player.Speed.X, 0); }
 
-            if (keyboardState.IsKeyDown(Keys.A))
+            if (keyboardState.IsKeyDown(Keys.A) && keyboardState.IsKeyDown(Keys.D))
+                player.Speed = new Vector2(0, player.Speed.Y);
+            else if (keyboardState.IsKeyDown(Keys.A))
                 player.Speed = new Vector2(-2, player.Speed.Y);
             else if (keyboardState.IsKeyDown(Keys.D))
                 player.Speed = new Vector2(2, player.Speed.Y);
