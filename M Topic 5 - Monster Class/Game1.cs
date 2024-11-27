@@ -9,8 +9,9 @@ namespace M_Topic_5___Monster_Class
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Player player = new Player(null, new Rectangle(0, 0, 50, 50), new Vector2(0, 0), 0);
+        Player player = new Player(null, new Rectangle(0, 0, 50, 50), new Vector2(0, 0), 0, 0);
 
+        Vector2 prevSpeed;
         KeyboardState keyboardState;
 
         double time;
@@ -60,9 +61,23 @@ namespace M_Topic_5___Monster_Class
                 player.Speed = new Vector2(2, player.Speed.Y);
             else { player.Speed = new Vector2(0, player.Speed.Y); }
 
-            Window.Title = player.Speed.ToString();
+            if (player.Speed.X != 0)
+                prevSpeed = player.Speed;
 
-            player.Offset();
+            if (keyboardState.IsKeyDown(Keys.W) && keyboardState.IsKeyDown(Keys.A) ||
+                keyboardState.IsKeyDown(Keys.S) && keyboardState.IsKeyDown(Keys.D))
+                player.Rotation = 0.785398f;
+            else if (keyboardState.IsKeyDown(Keys.S) && keyboardState.IsKeyDown(Keys.A) ||
+                keyboardState.IsKeyDown(Keys.W) && keyboardState.IsKeyDown(Keys.D))
+                player.Rotation = -0.785398f;
+            else if (keyboardState.IsKeyDown(Keys.S))
+                player.Rotation = 1.5708f;
+            else if (keyboardState.IsKeyDown(Keys.W))
+                player.Rotation = -1.5708f;
+            else if (keyboardState.IsKeyDown(Keys.A) || (keyboardState.IsKeyDown(Keys.D)))
+                player.Rotation = 0;
+
+                player.Offset();
 
             time += gameTime.ElapsedGameTime.TotalSeconds;
             if (time > 0.2)
@@ -77,7 +92,12 @@ namespace M_Topic_5___Monster_Class
 
             _spriteBatch.Begin();
 
-            _spriteBatch.Draw(player.Texture, player.Rectangle, player.Source, Color.White);
+            if (prevSpeed.X == -2)
+                _spriteBatch.Draw(player.Texture, player.Rectangle, player.Source, Color.White, player.Rotation,
+                player.Origin, SpriteEffects.FlipHorizontally, 0f);
+            else
+                _spriteBatch.Draw(player.Texture, player.Rectangle, player.Source, Color.White, player.Rotation,
+                new Vector2(player.Rectangle.Width / 2, player.Rectangle.Height / 2), SpriteEffects.None, 0f);
 
             _spriteBatch.End();
 
