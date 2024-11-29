@@ -25,7 +25,7 @@ namespace M_Topic_5___Monster_Class
         protected override void Initialize()
         {
             base.Initialize();
-            player = new Player(playerSpriteSheet, new Rectangle(0, 0, 50, 50), new Vector2(0, 0), 0, 0);
+            player = new Player(playerSpriteSheet, new Rectangle(0, 0, 50, 50), new Vector2(0, 0), 0);
         }
 
         protected override void LoadContent()
@@ -45,7 +45,6 @@ namespace M_Topic_5___Monster_Class
             time += gameTime.ElapsedGameTime.TotalSeconds;
             if (time > 0.2)
             { player.FrameAdvance(); time -= 0.2; }
-
             base.Update(gameTime);
         }
 

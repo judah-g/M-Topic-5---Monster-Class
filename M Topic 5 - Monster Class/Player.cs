@@ -13,20 +13,20 @@ namespace M_Topic_5___Monster_Class
     {
         private Texture2D _texture;
         private Rectangle _rectangle;
-        private Vector2 _speed, _origin;
+        private Vector2 _speed;
         private float _rotation;
         private SpriteEffects _spritebatchEffect;
 
 
         private int _frame = 0;
         private List<Rectangle> _sourceRects;
+        private List<Vector2> _origins;
 
-        public Player(Texture2D texture, Rectangle rectangle, Vector2 speed, int frame, float rotation) 
-        { 
+        public Player(Texture2D texture, Rectangle rectangle, Vector2 speed, float rotation)
+        {
             _texture = texture;
             _rectangle = rectangle;
             _speed = speed;
-            _frame = frame;
             _rotation = rotation;
             _spritebatchEffect = SpriteEffects.None;
             Initialize();
@@ -44,9 +44,9 @@ namespace M_Topic_5___Monster_Class
             set { _speed = value; }
         }
 
-        public Texture2D Texture 
-        { 
-            get { return _texture; } 
+        public Texture2D Texture
+        {
+            get { return _texture; }
             set { _texture = value; }
         }
 
@@ -56,14 +56,18 @@ namespace M_Topic_5___Monster_Class
             set { _rotation = value; }
         }
 
-        public Vector2 Origin { get { return _origin; } }
+        public Vector2 Origin { get { return _origins[_frame]; } }
+
+        //voids
 
         public void Initialize()
         {
             _sourceRects = new List<Rectangle>();
-            for (int i = 2; i > -1; i--)
+            _origins = new List<Vector2>();
+            for (int i = 2; i >= 0; i--)
             {
                 _sourceRects.Add(new Rectangle((i * 768), 0, 768, 768));
+                _origins.Add(new Vector2(768 / 2, 768 / 2));
             }
         }
 
@@ -91,21 +95,18 @@ namespace M_Topic_5___Monster_Class
                 keyboardState.IsKeyDown(Keys.W) && keyboardState.IsKeyDown(Keys.D))
                 _rotation = -0.785398f;
             else if (keyboardState.IsKeyDown(Keys.S))
-                _rotation = 1.5708f;
+            { _rotation = 1.5708f; _spritebatchEffect = SpriteEffects.None; }
             else if (keyboardState.IsKeyDown(Keys.W))
-                _rotation = -1.5708f;
+            { _rotation = -1.5708f; _spritebatchEffect = SpriteEffects.None; }
             else if (keyboardState.IsKeyDown(Keys.A) || (keyboardState.IsKeyDown(Keys.D)))
                 _rotation = 0;
 
-
-            _origin = new Vector2(_texture.Width / 2, _texture.Height / 2);      
-
             _rectangle.X += (int)_speed.X;
             _rectangle.Y += (int)_speed.Y;
-            if (_speed.X > 0)
+            if (_speed.X < 0)
                 _spritebatchEffect = SpriteEffects.FlipHorizontally;
-           else if (_speed.X < 0)
-                _spritebatchEffect= SpriteEffects.None;
+            else if (_speed.X > 0)
+                _spritebatchEffect = SpriteEffects.None;
         }
 
         public void FrameAdvance()
@@ -116,7 +117,7 @@ namespace M_Topic_5___Monster_Class
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _rectangle, _sourceRects[_frame], Color.White, _rotation, _origin, _spritebatchEffect, 0f);
+            spriteBatch.Draw(_texture, _rectangle, _sourceRects[_frame], Color.White, _rotation, _origins[_frame], _spritebatchEffect, 0f);
         }
     }
 }
